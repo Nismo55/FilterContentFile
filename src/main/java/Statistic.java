@@ -18,12 +18,19 @@ public class Statistic {
 
     public static void fullStatistic(ArrayList<Long> longNumbers,
                                      ArrayList<Double> doubleNumbers,
-                                     ArrayList<String> strings, long sum) {
+                                     ArrayList<String> strings, long longSum, double doubleSum) {
         if (!longNumbers.isEmpty()) {
             System.out.println("Максимальное целое число: " + Collections.max(longNumbers));
             System.out.println("Минимальное целое число: " + Collections.min(longNumbers));
-            System.out.println("Сумма целых чисел: " + sum);
-            System.out.println("Среднее значение целых чисел: " + (sum / longNumbers.size()));
+            System.out.println("Сумма целых чисел: " + longSum);
+            System.out.println("Среднее значение целых чисел: " + (longSum / longNumbers.size()));
+        }
+
+        if (!doubleNumbers.isEmpty()) {
+            System.out.println("Максимальное вещественное число: " + Collections.max(doubleNumbers));
+            System.out.println("Минимальное вещественное число: " + Collections.min(doubleNumbers));
+            System.out.println("Сумма вещественных чисел: " + doubleSum);
+            System.out.println("Среднее значение вещественных чисел: " + (doubleSum / doubleNumbers.size()));
         }
 
     }
