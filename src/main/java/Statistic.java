@@ -33,5 +33,11 @@ public class Statistic {
             System.out.println("Среднее значение вещественных чисел: " + (doubleSum / doubleNumbers.size()));
         }
 
+        if (!strings.isEmpty()) {
+            System.out.println("Общее количество строк: " + UtilityFilterOfFile.strings.size());
+            System.out.println("Размер самой длинной строки: " + Collections.max(strings).length());
+            System.out.println("Размер самой короткой строки: " + Collections.min(strings).length());
+        }
+
     }
 }

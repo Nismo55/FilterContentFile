@@ -99,5 +99,32 @@ public class DataProcessing {
                 System.out.println("Ошибка записи в файл");
             }
         }
+
+        //// создание файла
+        if (!UtilityFilterOfFile.strings.isEmpty()) {
+            Path pathStrings;
+            if (path.isEmpty())
+                pathStrings = Path.of(prefix + "strings.txt");
+            else
+                pathStrings = Path.of(path + "/" + prefix + "strings.txt");
+            if (Files.notExists(pathStrings)) {
+                try {
+                    Files.createFile(pathStrings);
+                } catch (IOException e) {
+                    System.out.println("Не коректно задано имя файла");
+                }
+            }
+            //// запись в файл
+            try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathStrings.toFile(), isAppend))) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (String string : UtilityFilterOfFile.strings) {
+                    stringBuilder.append(string).append("\n");
+                }
+                bufferedWriter.write(stringBuilder.toString());
+
+            } catch (IOException e) {
+                System.out.println("Ошибка записи в файл");
+            }
+        }
     }
 }
