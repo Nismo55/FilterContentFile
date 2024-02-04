@@ -1,5 +1,8 @@
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -8,7 +11,7 @@ public class Solution {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        args = new String[]{"-s -a -p sample- D:/JavaTestTask/in1.txt D:/JavaTestTask/in2.txt"};
+        args = new String[]{"-s -a -p sample- -o D:/JavaTestTask/write in1.txt in2.txt"};
         String[] split = String.join(" ", args).split(" ");
         String prefix = "";
         String path = "";
@@ -42,38 +45,71 @@ public class Solution {
             else if (split[i].endsWith(".txt"))
                 files.add(split[i]);
         }
-        /** в мэйне оставить только создание пути к файлу, сделать отдельный метод для подсчёта статистики*/
-        for(String file : files) {
-            try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-                while (bufferedReader.ready()) {
-                   String line = bufferedReader.readLine();
-                   try {
-                       Long number = Long.parseLong(line);
-                       longNumbers.add(number);
-                   } catch (NumberFormatException e) {
+        if (files.isEmpty())
+            System.out.println("Не заданы файлы с входными данными");
+        else {
+            for(String file : files) {
+                try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+                    while (bufferedReader.ready()) {
+                       String line = bufferedReader.readLine();
                        try {
-                           Float floating = Float.parseFloat(line);
-                           floatNumbers.add(floating);
-                       } catch (NumberFormatException x) {
-                            String str = line;
-                            strings.add(str);
+                           Long number = Long.parseLong(line);
+                           longNumbers.add(number);
+                       } catch (NumberFormatException e) {
+                           try {
+                               Float floating = Float.parseFloat(line);
+                               floatNumbers.add(floating);
+                           } catch (NumberFormatException x) {
+                               strings.add(line);
+                           }
                        }
-                   }
+                    }
+                } catch (IOException e) {
+                    System.out.println("Файла с именем " + file + " не существует");
                 }
-            } catch (IOException e) {
-                System.out.println("Файла с именем " + file + " не существует");
             }
         }
-        System.out.println(strings);
+        /**System.out.println(strings);
         System.out.println(longNumbers);
-        System.out.println(floatNumbers);
+        System.out.println(floatNumbers);*/
 
 
+        if ((!longNumbers.isEmpty() || !floatNumbers.isEmpty() || !strings.isEmpty()) && !path.isEmpty()) {
+            Path pathDirectory = Path.of(path);
+            if (!Files.isDirectory(pathDirectory)) {
+                try {
+                    Files.createDirectories(pathDirectory);
+                } catch (IOException e) {
+                    System.out.println("Не корректно задан путь к директории");
+                }
+            };
+        }
 
-        //try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter()))
 
+        if (!longNumbers.isEmpty()) {
+            Path pathInteger;
+            if (path.isEmpty())
+                pathInteger = Path.of(prefix + "integers.txt");
+             else
+                pathInteger = Path.of(path + "/" + prefix + "integers.txt");
+            if (Files.notExists(pathInteger)) {
+                try {
+                    Files.createFile(pathInteger);
+                } catch (IOException e) {
+                    System.out.println("Не коректно задано имя файла");
+                }
+            }
+            try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathInteger.toFile(), append))) {
+                StringBuilder stringBuilder = new StringBuilder();
+                for (Long longNumber : longNumbers) {
+                    stringBuilder.append(longNumber).append("\n");
+                }
+                Files.write(pathInteger, stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
 
+            } catch (IOException e) {
+                System.out.println("Ошибка записи в файл");
+            }
+        }
+        Statistic.shortStatistic(longNumbers, floatNumbers, strings, prefix);
     }
-
-
 }
