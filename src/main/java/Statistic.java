@@ -1,9 +1,7 @@
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 public class Statistic {
-    /** Класс служит для вывода статистики на экран */
     public static void shortStatistic(ArrayList<Long> longNumbers,
                                       ArrayList<Double> doubleNumbers,
                                       ArrayList<String> strings, String prefix) {

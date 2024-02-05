@@ -4,7 +4,6 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 public class DataProcessing {
-
     public static void readFiles(ArrayList<String> files) {
         ////читаем строки с файлов, парсим и кладем в соответствующие списки
         if (files.isEmpty())
@@ -58,6 +57,7 @@ public class DataProcessing {
                     System.out.println("Не коректно задано имя файла");
                 }
             }
+
             /// запись в файл
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathInteger.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -71,6 +71,7 @@ public class DataProcessing {
                 System.out.println("Ошибка записи в файл");
             }
         }
+
         //// создание файла
         if (!UtilityFilterOfFile.doubleNumbers.isEmpty()) {
             Path pathDouble;
@@ -85,6 +86,7 @@ public class DataProcessing {
                     System.out.println("Не коректно задано имя файла");
                 }
             }
+
             //// запись в файл
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDouble.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -93,8 +95,6 @@ public class DataProcessing {
                     UtilityFilterOfFile.sumDouble += doubleNumber;
                 }
                 bufferedWriter.write(stringBuilder.toString());
-
-
             } catch (IOException e) {
                 System.out.println("Ошибка записи в файл");
             }
@@ -114,6 +114,7 @@ public class DataProcessing {
                     System.out.println("Не коректно задано имя файла");
                 }
             }
+
             //// запись в файл
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathStrings.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
@@ -121,7 +122,6 @@ public class DataProcessing {
                     stringBuilder.append(string).append("\n");
                 }
                 bufferedWriter.write(stringBuilder.toString());
-
             } catch (IOException e) {
                 System.out.println("Ошибка записи в файл");
             }

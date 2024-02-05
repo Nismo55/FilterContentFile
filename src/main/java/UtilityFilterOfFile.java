@@ -5,16 +5,16 @@ public class UtilityFilterOfFile {
     static String prefix = "";
     static String path = "";
     static boolean isAppend = false;
-
+    static long sumLong = 0;
+    static double sumDouble = 0.0;
     static ArrayList<Long> longNumbers = new ArrayList<>();
     static ArrayList<Double> doubleNumbers = new ArrayList<>();
     static ArrayList<String> strings = new ArrayList<>();
 
-    static long sumLong = 0;
-    static double sumDouble = 0.0;
+
     public static void main(String[] args) {
 
-        args = new String[]{"-s -a -p sample- -o D:/JavaTestTask/write in1.txt in2.txt"};
+        args = new String[]{"-s -f -s in1.txt in2.txt"};//// не забыть удалить
         String[] split = String.join(" ", args).split(" ");
 
         boolean isFullStatistic = false;
@@ -35,18 +35,19 @@ public class UtilityFilterOfFile {
             else if (split[i].endsWith(".txt"))
                 files.add(split[i]);
         }
-
         DataProcessing.readFiles(files);
-
 
         ////создаем директории если их нет
         if ((!longNumbers.isEmpty() || !doubleNumbers.isEmpty() || !strings.isEmpty()) && !path.isEmpty())
             DataProcessing.createDirectory(path);
 
+        ///записываем информацию в файлы
         DataProcessing.writeToFile(path, prefix, isAppend);
 
-
-        Statistic.shortStatistic(longNumbers, doubleNumbers, strings, prefix);
-        Statistic.fullStatistic(longNumbers, doubleNumbers, strings, sumLong, sumDouble);
+        /// выводим статистику
+        if (isShortStatistic)
+            Statistic.shortStatistic(longNumbers, doubleNumbers, strings, prefix);
+        if (isFullStatistic)
+            Statistic.fullStatistic(longNumbers, doubleNumbers, strings, sumLong, sumDouble);
     }
 }
