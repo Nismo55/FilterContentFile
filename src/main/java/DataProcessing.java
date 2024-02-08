@@ -43,7 +43,7 @@ public class DataProcessing {
         }
     }
     public static void writeToFile(String path, String prefix, boolean isAppend) {
-        /// создание файла
+        /// создание файла integer
         if (!UtilityFilterOfFile.longNumbers.isEmpty()) {
             Path pathInteger;
             if (path.isEmpty())
@@ -58,7 +58,7 @@ public class DataProcessing {
                 }
             }
 
-            /// запись в файл
+            /// запись в файл integer
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathInteger.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Long longNumber : UtilityFilterOfFile.longNumbers) {
@@ -72,7 +72,7 @@ public class DataProcessing {
             }
         }
 
-        //// создание файла
+        //// создание файла float
         if (!UtilityFilterOfFile.doubleNumbers.isEmpty()) {
             Path pathDouble;
             if (path.isEmpty())
@@ -87,7 +87,7 @@ public class DataProcessing {
                 }
             }
 
-            //// запись в файл
+            //// запись в файл float
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDouble.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Double doubleNumber : UtilityFilterOfFile.doubleNumbers) {
@@ -100,7 +100,7 @@ public class DataProcessing {
             }
         }
 
-        //// создание файла
+        //// создание файла string
         if (!UtilityFilterOfFile.strings.isEmpty()) {
             Path pathStrings;
             if (path.isEmpty())
@@ -115,7 +115,7 @@ public class DataProcessing {
                 }
             }
 
-            //// запись в файл
+            //// запись в файл string
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathStrings.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String string : UtilityFilterOfFile.strings) {

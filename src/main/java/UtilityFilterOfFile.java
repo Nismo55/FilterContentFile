@@ -14,7 +14,7 @@ public class UtilityFilterOfFile {
 
     public static void main(String[] args) {
 
-        args = new String[]{"-s -f -s in1.txt in2.txt"};//// не забыть удалить
+        args = new String[]{"-s -f -p bars- -s in1.txt in2.txt"};//// не забыть удалить
         String[] split = String.join(" ", args).split(" ");
 
         boolean isFullStatistic = false;
