@@ -11,10 +11,7 @@ public class UtilityFilterOfFile {
     static ArrayList<Double> doubleNumbers = new ArrayList<>();
     static ArrayList<String> strings = new ArrayList<>();
 
-
     public static void main(String[] args) {
-
-        args = new String[]{"-s -f -p bars- -s in1.txt in2.txt"};//// не забыть удалить
         String[] split = String.join(" ", args).split(" ");
 
         boolean isFullStatistic = false;
@@ -35,9 +32,11 @@ public class UtilityFilterOfFile {
             else if (split[i].endsWith(".txt"))
                 files.add(split[i]);
         }
+
+        ///читаем строки с файлов, парсим и кладем в соответствующие списки
         DataProcessing.readFiles(files);
 
-        ////создаем директории если их нет
+        ///создаем директории если их нет
         if ((!longNumbers.isEmpty() || !doubleNumbers.isEmpty() || !strings.isEmpty()) && !path.isEmpty())
             DataProcessing.createDirectory(path);
 

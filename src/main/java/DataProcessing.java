@@ -5,14 +5,21 @@ import java.util.ArrayList;
 
 public class DataProcessing {
     public static void readFiles(ArrayList<String> files) {
-        ////читаем строки с файлов, парсим и кладем в соответствующие списки
         if (files.isEmpty())
             System.out.println("Не заданы файлы с входными данными");
         else {
-            for(String file : files) {
-                try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-                    while (bufferedReader.ready()) {
-                        String line = bufferedReader.readLine();
+            ArrayList<BufferedReader> readerList = new ArrayList<>();
+            try {
+                for (String file : files) {
+                    readerList.add(new BufferedReader(new FileReader(file)));
+            }
+            boolean endOfFile = false;
+            while (!endOfFile) {
+                endOfFile = true;
+                for (BufferedReader reader : readerList) {
+                    String line = reader.readLine();
+                    if (line != null) {
+                        endOfFile= false;
                         try {
                             Long number = Long.parseLong(line);
                             UtilityFilterOfFile.longNumbers.add(number);
@@ -25,13 +32,25 @@ public class DataProcessing {
                             }
                         }
                     }
-                } catch (IOException e) {
-                    System.out.println("Файла с именем " + file + " не существует");
                 }
             }
+            } catch (IOException e) {
+                String fileName = e.getMessage().split(" ")[0];
+                System.out.println("Файла с именем " + fileName + " не существует");
+            }
+            finally {
+                for (BufferedReader reader : readerList) {
+                    try {
+                        reader.close();
+                    } catch (IOException e) {
+                        String fileName = e.getMessage().split(" ")[0];
+                        System.out.println("Файл с именем " + fileName + " не может быть закрыт");
+                    }
+                }
+            }
+
         }
     }
-
     public static void createDirectory(String path) {
         Path pathDirectory = Path.of(path);
         if (!Files.isDirectory(pathDirectory)) {
@@ -43,7 +62,7 @@ public class DataProcessing {
         }
     }
     public static void writeToFile(String path, String prefix, boolean isAppend) {
-        /// создание файла integer
+            /// создание файла integer
         if (!UtilityFilterOfFile.longNumbers.isEmpty()) {
             Path pathInteger;
             if (path.isEmpty())
@@ -72,7 +91,7 @@ public class DataProcessing {
             }
         }
 
-        //// создание файла float
+            /// создание файла float
         if (!UtilityFilterOfFile.doubleNumbers.isEmpty()) {
             Path pathDouble;
             if (path.isEmpty())
@@ -87,7 +106,7 @@ public class DataProcessing {
                 }
             }
 
-            //// запись в файл float
+            /// запись в файл float
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathDouble.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (Double doubleNumber : UtilityFilterOfFile.doubleNumbers) {
@@ -100,7 +119,7 @@ public class DataProcessing {
             }
         }
 
-        //// создание файла string
+            /// создание файла string
         if (!UtilityFilterOfFile.strings.isEmpty()) {
             Path pathStrings;
             if (path.isEmpty())
@@ -115,7 +134,7 @@ public class DataProcessing {
                 }
             }
 
-            //// запись в файл string
+            /// запись в файл string
             try(BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(pathStrings.toFile(), isAppend))) {
                 StringBuilder stringBuilder = new StringBuilder();
                 for (String string : UtilityFilterOfFile.strings) {

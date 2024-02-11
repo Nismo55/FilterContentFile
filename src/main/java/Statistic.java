@@ -5,12 +5,15 @@ public class Statistic {
     public static void shortStatistic(ArrayList<Long> longNumbers,
                                       ArrayList<Double> doubleNumbers,
                                       ArrayList<String> strings, String prefix) {
-        System.out.println(String.format("Колличество элементов записаных в файл %sintegers.txt: %d",
-                prefix, longNumbers.size()));;
-        System.out.println(String.format("Колличество элементов записаных в файл %sfloats.txt: %d",
-                prefix, doubleNumbers.size()));
-        System.out.println(String.format("Колличество элементов записаных в файл %sstrings.txt: %d",
-                prefix, strings.size()));
+        if (!longNumbers.isEmpty())
+            System.out.println(String.format("Колличество элементов записаных в файл %sintegers.txt: %d",
+                    prefix, longNumbers.size()));
+        if (!doubleNumbers.isEmpty())
+            System.out.println(String.format("Колличество элементов записаных в файл %sfloats.txt: %d",
+                    prefix, doubleNumbers.size()));
+        if (!strings.isEmpty())
+            System.out.println(String.format("Колличество элементов записаных в файл %sstrings.txt: %d",
+                    prefix, strings.size()));
     }
 
 
